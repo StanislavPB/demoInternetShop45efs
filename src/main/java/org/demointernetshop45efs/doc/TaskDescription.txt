@@ -76,7 +76,7 @@ public UserResponseDto findUserByEmail(String email);
 // найти всех по имени
 public List<UserResponseDto> findUserByLastName(String lastName);
 
-// обновить данные от имени пользователь (пользователь хочет
+// * обновить данные от имени пользователь (пользователь хочет
 // поменять какие-то данные в своем профиле)
 public UserResponseDto updateUser(UserUpdateRequestDto);
 
@@ -90,7 +90,7 @@ localhost:8080/api/update?lastname=....&password=...
 требованиям валидации, то мы должны заменить  в нашем пользователе значение этого поля
 
 
-// удаление записи
+//* удаление записи
 public boolean deleteUser(Integer id);
 
 

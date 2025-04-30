@@ -36,6 +36,7 @@ public class ConfirmationCodeService {
         ConfirmationCode newCode = new ConfirmationCode();
         newCode.setCode(code);
         newCode.setUser(user);
+        newCode.setConfirmed(false);
         repository.save(newCode);
     }
 
@@ -61,7 +62,6 @@ public class ConfirmationCodeService {
 
         return user;
     }
-
 
 
 }

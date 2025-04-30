@@ -141,10 +141,17 @@ public class UserService {
 
         return true;
 
-    };
+    }
 
 
+    public boolean renewCode(String email){
 
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
+
+        confirmationCodeService.confirmationCodeHandle(user);
+        return true;
+    }
 
 
 }
