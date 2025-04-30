@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserUpdateRequestDto {
 
-    private Integer id;
-
     private String email;
 
     @NotBlank (message = "First name is required and must be not blank")

@@ -86,7 +86,65 @@ public class UserService {
 
     public UserResponseDto updateUser(UserUpdateRequestDto updateRequest){
 
+        if (updateRequest.getEmail() == null || updateRequest.getEmail().isBlank()){
+            throw new IllegalArgumentException("Email must be provided to update user");
+        }
+
+        String userEmail = updateRequest.getEmail();
+
+        // найдем пользователя по email
+        User userByEmail = repository.findByEmail(userEmail)
+                .orElseThrow(() -> new NotFoundException("User with email: " + userEmail + " not found"));
+
+        // обновляем все доступные поля
+        // мы заранее НЕ ЗНАЕМ, а какие именно поля пользователь захочет поменять
+        // то есть в JSON (в теде запроса) будут находится ТОЛЬКО те поля (со значением)
+        // которые пользователь хочет менять (не обязательно все)
+        if (updateRequest.getFirstName() != null && !updateRequest.getFirstName().isBlank()) {
+            userByEmail.setFirstName(updateRequest.getFirstName());
+        }
+
+        if (updateRequest.getLastName() != null && !updateRequest.getLastName().isBlank()) {
+            userByEmail.setLastName(updateRequest.getLastName());
+        }
+
+        if (updateRequest.getHashPassword() != null && !updateRequest.getHashPassword().isBlank()) {
+            userByEmail.setHashPassword(updateRequest.getHashPassword());
+        }
+
+        // сохраняем (обновляем) пользователя
+        repository.save(userByEmail);
+
+        return converter.toDto(userByEmail);
+        // или вручную создать UserResponseDto из данных, которые хранятся в userByEmail
     };
+
+    public boolean deleteUser(Integer id){
+
+        // проверим, что такой id существует
+        // и если нет - то сразу возвращаем false и ничего даже не пытаемся удалить
+
+        if (!repository.existsById(id)){
+            return false;
+        }
+
+        // если существует, то
+        // вариант 1 - удаляем сразу по id
+
+        repository.deleteById(id);
+
+        // вариант 2 - сперва найдем объект по этому номеру id
+
+//        User userForDelete = repository.findById(id).get();
+//
+//        repository.delete(userForDelete);
+
+        return true;
+
+    };
+
+
+
 
 
 }
