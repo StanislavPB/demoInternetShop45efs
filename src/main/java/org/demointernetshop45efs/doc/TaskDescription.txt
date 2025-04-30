@@ -58,19 +58,19 @@ FileInfo:
 API description:
 
 UserController
-// добавить нового пользователя
+//*  добавить нового пользователя
 public UserResponseDto addNewUser(UserRequestDto request);
 
-// найти всех пользователей (полная информация - для ADMIN)
+//* найти всех пользователей (полная информация - для ADMIN)
 public List<User> findAllFullDetails();
 
-// найти всех пользователей (ограниченная информация - для MANAGER)
+//* найти всех пользователей (ограниченная информация - для MANAGER)
 public List<UserResponseDto> findAll();
 
-//найти пользователя по ID
+//*найти пользователя по ID
 public UserResponseDto findUserById(Integer id);
 
-//найти пользователя по email
+//*найти пользователя по email
 public UserResponseDto findUserByEmail(String email);
 
 // найти всех по имени

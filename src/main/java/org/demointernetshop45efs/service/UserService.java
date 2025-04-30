@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.demointernetshop45efs.dto.UserRequestDto;
 import org.demointernetshop45efs.dto.UserResponseDto;
+import org.demointernetshop45efs.dto.UserUpdateRequestDto;
 import org.demointernetshop45efs.entity.ConfirmationCode;
 import org.demointernetshop45efs.entity.User;
 import org.demointernetshop45efs.repository.UserRepository;
@@ -82,6 +83,10 @@ public class UserService {
 
         return converter.toDto(user);
     }
+
+    public UserResponseDto updateUser(UserUpdateRequestDto updateRequest){
+
+    };
 
 
 }
