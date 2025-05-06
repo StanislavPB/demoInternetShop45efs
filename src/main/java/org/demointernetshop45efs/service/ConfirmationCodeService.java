@@ -8,6 +8,7 @@ import org.demointernetshop45efs.service.exception.NotFoundException;
 import org.demointernetshop45efs.service.mail.MailUtil;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -20,8 +21,14 @@ public class ConfirmationCodeService {
 
     private final int EXPIRATION_PERIOD = 1;
 
-    private final String LINK_PATH = "localhost:8080/api/public/confirmation?code=";
+    private final String LINK_PATH = "code=";
 
+
+    public void confirmationCodeHandle(User user){
+        String code = generateCode();
+        saveConfirmationCode(code, user);
+        sendCodeByEmail(code, user);
+    }
 
     private String generateCode(){
 
@@ -39,6 +46,7 @@ public class ConfirmationCodeService {
         ConfirmationCode newCode = new ConfirmationCode();
         newCode.setCode(code);
         newCode.setUser(user);
+        newCode.setExpireDataTime(LocalDateTime.now().plusDays(EXPIRATION_PERIOD));
         newCode.setConfirmed(false);
         repository.save(newCode);
     }
@@ -46,6 +54,8 @@ public class ConfirmationCodeService {
     public void sendCodeByEmail(String code, User user){
         String linkToSend = LINK_PATH + code;
         // тут будет отправка пользователю письма с кодом подтверждения
+
+        System.out.println(linkToSend);
 
         mailUtil.sendEmail(
                 user.getFirstName(),
@@ -55,12 +65,6 @@ public class ConfirmationCodeService {
                 user.getEmail()
         );
 
-    }
-
-    public void confirmationCodeHandle(User user){
-        String code = generateCode();
-        saveConfirmationCode(code, user);
-        sendCodeByEmail(code, user);
     }
 
     public User confirmUserByCode(String code){

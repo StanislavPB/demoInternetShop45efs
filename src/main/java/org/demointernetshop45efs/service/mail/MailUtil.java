@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,11 +30,18 @@ public class MailUtil {
             dataForFillTemplateField.put("lastName", lastName);
             dataForFillTemplateField.put("link", link);
 
-            String emailContext = FreeMarkerTemplateUtils.processTemplateIntoString(template, dataForFillTemplateField);
+            // генерация HTML с использованием шаблона
 
-            return emailContext;
+            String htmlBody = "";
+
+            StringWriter writer = new StringWriter();
+            template.process(dataForFillTemplateField, writer);
+
+            htmlBody = writer.toString();
+
+            return htmlBody;
         } catch (Exception e) {
-            throw new IllegalStateException();
+            throw new IllegalStateException("Ошибка при создании письма: " + e.getMessage(), e);
         }
     }
 
@@ -47,9 +55,9 @@ public class MailUtil {
         try {
             helper.setTo(email);
             helper.setSubject(subject);
-            helper.setText(textMessage);
+            helper.setText(textMessage,true);
         } catch (MessagingException e){
-            throw new IllegalStateException();
+            throw new IllegalStateException("Ошибка при создании письма: " + e.getMessage(), e);
         }
 
         javaMailSender.send(message);
