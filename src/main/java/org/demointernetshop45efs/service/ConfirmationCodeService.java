@@ -5,6 +5,7 @@ import org.demointernetshop45efs.entity.ConfirmationCode;
 import org.demointernetshop45efs.entity.User;
 import org.demointernetshop45efs.repository.ConfirmationCodeRepository;
 import org.demointernetshop45efs.service.exception.NotFoundException;
+import org.demointernetshop45efs.service.mail.MailUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,6 +15,8 @@ import java.util.UUID;
 public class ConfirmationCodeService {
 
     private final ConfirmationCodeRepository repository;
+
+    private final MailUtil mailUtil;
 
     private final int EXPIRATION_PERIOD = 1;
 
@@ -40,15 +43,24 @@ public class ConfirmationCodeService {
         repository.save(newCode);
     }
 
-    public void sendCodeByEmail(String code, String userEmail){
-        String message = LINK_PATH + code;
+    public void sendCodeByEmail(String code, User user){
+        String linkToSend = LINK_PATH + code;
         // тут будет отправка пользователю письма с кодом подтверждения
+
+        mailUtil.sendEmail(
+                user.getFirstName(),
+                user.getLastName(),
+                linkToSend,
+                "Code confirmation email",
+                user.getEmail()
+        );
+
     }
 
     public void confirmationCodeHandle(User user){
         String code = generateCode();
         saveConfirmationCode(code, user);
-        sendCodeByEmail(code, user.getEmail());
+        sendCodeByEmail(code, user);
     }
 
     public User confirmUserByCode(String code){
