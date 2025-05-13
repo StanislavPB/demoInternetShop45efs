@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/code")
+@RequestMapping("/api/public/code")
 public class CodeConfirmationController {
     private final UserService userService;
     private final ConfirmationCodeService confirmationCodeService;
