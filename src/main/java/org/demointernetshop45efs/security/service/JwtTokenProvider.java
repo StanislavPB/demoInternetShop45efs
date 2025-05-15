@@ -15,7 +15,7 @@ public class JwtTokenProvider {
 
     private String jwtSecret = "984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf";
 
-    private long jwtLifeTime = 60000;
+    private long jwtLifeTime = 600000;
 
     public String createToken(String username) {
 

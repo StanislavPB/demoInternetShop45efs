@@ -2,6 +2,7 @@ package org.demointernetshop45efs.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class FileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

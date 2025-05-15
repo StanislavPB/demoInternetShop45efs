@@ -11,6 +11,8 @@ import org.demointernetshop45efs.repository.UserRepository;
 import org.demointernetshop45efs.service.exception.AlreadyExistException;
 import org.demointernetshop45efs.service.exception.NotFoundException;
 import org.demointernetshop45efs.service.util.Converter;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -153,5 +155,14 @@ public class UserService {
         return true;
     }
 
+
+    public User getgetCurrentUser(){
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String email = principal.getUsername();
+
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Пользователь с email: " + email + " не найден" ));
+    }
 
 }
