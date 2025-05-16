@@ -25,25 +25,20 @@ public class AppConfig {
     }
 
     @Bean
-    public AmazonS3 amazonS3(){
+    public AmazonS3 amazonS3(S3ConfigurationProperties properties){
         // необходимо задать конфигурационные параметры для аутентификации нашего приложения на DigitalOcean
-
-        String accessKey = "DO801NQZH36AYKEDAG2K";
-        String secretKey = "eCABKUS+0GQj6CfonjmQXXX8DxSB2U5PtE/gQfIP5BA";
-        String endpoint = "https://fra1.digitaloceanspaces.com";
-        String region = "fra1";
 
         // создать экземпляр класса, который мы будем использовать для аутентификации
 
         AWSCredentials credentials = new BasicAWSCredentials(
-                accessKey,
-                secretKey
+                properties.getAccessKey(),
+                properties.getSecretKey()
         );
         // настройка точки подключения к хранилищу
 
         AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
-                endpoint,
-                region
+                properties.getEndpoint(),
+                properties.getRegion()
         );
 
         // создать клиент для загрузки файлов

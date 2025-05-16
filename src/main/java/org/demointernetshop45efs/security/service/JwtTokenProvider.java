@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -13,9 +14,11 @@ import java.util.Date;
 @Service
 public class JwtTokenProvider {
 
-    private String jwtSecret = "984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
-    private long jwtLifeTime = 600000;
+    @Value("${jwt.lifeTime}")
+    private long jwtLifeTime;
 
     public String createToken(String username) {
 
